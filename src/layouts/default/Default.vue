@@ -33,11 +33,11 @@ import DefaultView from "./View.vue";
   border: 5px solid #ced4f5;
   border-radius: 10px;
   box-shadow: none;
-  height: 95vh;
+  height: 94vh;
 }
 
 .v-divider {
-  border: 2.5px solid #ced4f5;
+  border: 2px solid #ced4f5;
 }
 
 .v-navigation-drawer--right {

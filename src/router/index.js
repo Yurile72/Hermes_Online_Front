@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "@/store";
 
 const routes = [
   {
@@ -21,6 +22,7 @@ const routes = [
         component: () => import("@/views/SettingPage.vue"),
       },
     ],
+    meta: { authorization: [] },
   },
   {
     path: "/Board/",
@@ -47,6 +49,7 @@ const routes = [
         component: () => import("@/views/BoardScholarship.vue"),
       },
     ],
+    meta: { authorization: [] },
   },
   {
     path: "/Login",
@@ -63,6 +66,17 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const authenticationState = store?.state?.loginStore;
+  const { authorization } = to.meta;
+  if (authorization) {
+    if (!authenticationState?.isLogin) {
+      return next({ path: "/Login" });
+    }
+  }
+  next();
 });
 
 export default router;

@@ -33,12 +33,12 @@
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props" link class="menu-list">
             <v-list-item-content>
-              <a
+              <!-- <a
                 @click="$router.push('/Board/Notice')"
                 style="color: black; text-decoration: none"
-              >
-                <img src="../../assets/Board.png" alt="Board" />
-              </a>
+              > -->
+              <img src="../../assets/Board.png" alt="Board" />
+              <!-- </a> -->
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -88,19 +88,21 @@
     <v-divider class="mx-4"></v-divider>
 
     <!-- Logout -->
-    <template v-slot:append> </template>
-    <v-list dense nav>
-      <v-list-item link class="menu-list">
-        <v-list-item-content>
-          <a
-            @click="$router.push('/Setting')"
-            style="color: black; text-decoration: none"
-          >
-            <img src="../../assets/Logout.png" alt="Logout" />
-          </a>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+    <template v-slot:append>
+      <v-list dense nav>
+        <v-list-item link class="menu-list text-right">
+          <v-list-item-content>
+            <a @click="logout" style="color: black; text-decoration: none">
+              <img
+                src="../../assets/Logout.png"
+                alt="Logout"
+                style="width: 130px; height: auto"
+              />
+            </a>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -121,6 +123,13 @@ export default {
       { href: "/Board/Job", name: "취업공지" },
     ],
   }),
+  methods: {
+    logout() {
+      this.$store.dispatch("logouttest_act").then(() => {
+        this.$router.push("/Login");
+      });
+    },
+  },
 };
 </script>
 

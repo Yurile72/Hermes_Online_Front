@@ -10,19 +10,21 @@
       </colgroup>
       <thead>
         <tr>
-          <th class="text-left">No.</th>
-          <th class="text-left">제목</th>
-          <th class="text-left">작성일</th>
-          <th class="text-left">작성자</th>
+          <th>No.</th>
+          <th>제목</th>
+          <th>작성일</th>
+          <th>작성자</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in data" :key="item.postNum" :href="item.link">
-          <td>{{ item.postNum }}</td>
-          <td>{{ item.title }}</td>
+        <tr v-for="item in data" :key="item.number" :href="item.link">
+          <td>{{ item.number }}</td>
+          <td v-if="item.title.length < 60">{{ item.title }}</td>
+          <td v-else>{{ item.title.substring(0, 60) + " ..." }}</td>
           <!-- <td>{{ item.content }}</td> -->
           <td>{{ item.dateCreated }}</td>
-          <td>{{ item.writer }}</td>
+          <td v-if="item.writer.length < 5">{{ item.writer }}</td>
+          <td v-else>{{ item.writer.substring(0, 5) + " ..." }}</td>
         </tr>
       </tbody>
     </v-table>
@@ -46,7 +48,7 @@ export default {
   data: () => ({
     data: [
       {
-        postNum: 1,
+        number: 1,
         title: "[중앙도서관] 북챌린지 참여하여 독서장학금 받아요!",
         content:
           "겨울방학동안 독서토론 선정도서를 리마인드하고, 목표점수를 획득하면 독서장학금을...",
@@ -57,7 +59,7 @@ export default {
     ],
   }),
   created() {
-    api.get("job").then((res) => {
+    api.get("main/job").then((res) => {
       this.data = res.data;
     });
   },

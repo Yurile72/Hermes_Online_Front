@@ -2,6 +2,16 @@
   <v-app class="contents-out">
     <v-card class="border-radius rounded-lg" elevation="0">
       <v-layout class="contents-in">
+        <div class="text-center ma-2">
+          <v-snackbar v-model="snackbar">
+            {{ text }}
+            <template v-slot:actions>
+              <v-btn color="pink" variant="text" @click="snackbar = false">
+                Close
+              </v-btn>
+            </template>
+          </v-snackbar>
+        </div>
         <v-row no-gutters>
           <!-- <v-col align-self="center"> -->
           <!-- <v-col class="mx-auto px-6 py-8"> -->
@@ -57,20 +67,30 @@
 </template>
 
 <script>
+import api from "@/api";
 export default {
   data: () => ({
     form: false,
     email: null,
     password: null,
     loading: false,
+    snackbar: false,
+    text: "계정 정보를 확인해 주세요.",
   }),
   methods: {
     onSubmit() {
       if (!this.form) return;
-
       this.loading = true;
+      setTimeout(() => (this.loading = false), 1000);
 
-      setTimeout(() => (this.loading = false), 2000);
+      const saveData = {};
+      saveData.email = this.email;
+      saveData.password = this.password;
+      this.$store.dispatch("login", saveData).then(() => {
+        setTimeout(() => this.$router.push("/"), 1000);
+      });
+      // this.$store.dispatch("login", saveData);
+      // this.$router.push("/");
     },
     required(v) {
       return !!v || "Field is required";
@@ -81,7 +101,7 @@ export default {
 
 <style>
 body {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "S-CoreDream-3Light", "Noto Sans KR", sans-serif;
 }
 
 .contents-out {

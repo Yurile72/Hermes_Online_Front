@@ -14,7 +14,7 @@
             <v-slide-group-item v-for="item in realtimePost" :key="item">
               <v-card
                 class="ma-4 out-container"
-                height="320"
+                height="280"
                 width="280"
                 elevation="0"
               >
@@ -61,9 +61,15 @@
 
     <v-row>
       <v-col>
-        <h1>최근 본 게시글</h1>
+        <h1>최근 게시글</h1>
         <br />
-        <v-table class="out-container rounded-lg">
+        <v-table fixed-header class="out-container rounded-lg">
+          <colgroup>
+            <col style="width: 10%" />
+            <col style="width: 10%" />
+            <col style="width: 63%" />
+            <col style="width: 17%" />
+          </colgroup>
           <thead class="inner-container">
             <tr>
               <th class="text-left">분류</th>
@@ -73,9 +79,9 @@
             </tr>
           </thead>
           <tbody style="background-color: #fdfbf5">
-            <tr v-for="item in recentPost" :key="item.postNum">
+            <tr v-for="item in recentPost" :key="item">
               <td>{{ item.class }}</td>
-              <td>{{ item.postNum }}</td>
+              <td>{{ item.number }}</td>
               <td>{{ item.title }}</td>
               <td>{{ item.dateCreated }}</td>
             </tr>
@@ -104,20 +110,35 @@ export default {
     ],
     recentPost: [
       {
-        class: "공지게시판",
-        postNum: 1,
-        title: "[중앙도서관] 북챌린지 참여하여 독서장학금 받아요!",
-        dateCreated: "2022-12-30 16:03",
+        class: "학사공지",
+        number: "1703",
+        title: "[교직]2022-2학기 교직 필수교육 안내(추가교육)",
+        writer: "박진희",
+        dateCreated: " 2022-12-30",
+        postLink:
+          "http://hannam.ac.kr/kor/guide/guide_02.html?pPostNo=177051&pPageNo=1&pRowCount=30&isGongjiPostList=N",
+        recentReadUser: {},
+      },
+      {
+        class: "학사공지",
+        number: "공지",
+        title:
+          "[계절학기] 2022학년도 겨울 계절학기 본수강신청 실시 및 시간표 안내",
+        writer: "조준희",
+        dateCreated: " 2022-11-21",
+        postLink:
+          "http://hannam.ac.kr/kor/guide/guide_02.html?pPostNo=175949&pPageNo=1&pRowCount=30&isGongjiPostList=Y",
+        recentReadUser: {},
       },
     ],
   }),
   created() {
     // 실시간 게시글
-    api.get("/main/realtimepost").then((res) => {
+    api.get("/main/updateallpost").then((res) => {
       this.realtimePost = res.data;
     });
     // 최근 본 게시글
-    api.get("/main/recentpost").then((res) => {
+    api.get("/main/updatepost").then((res) => {
       this.recentPost = res.data;
     });
   },
@@ -132,6 +153,7 @@ export default {
   border: #f5ead0 3px solid;
   /* outline-offset: 3px; */
   border-radius: 10px;
+  /* height: 100%; */
 }
 
 .inner-container {
